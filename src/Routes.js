@@ -15,7 +15,7 @@ export const Routes = ({}) => {
   const dispatch = useDispatch();
 
   const fetchProducts = () => {
-    dispatch(setRestrauntInfo(fakeData.restaurantData));
+    dispatch(setRestrauntInfo(fakeData));
   };
   useEffect(() => {
     // check if the user is logged in or not

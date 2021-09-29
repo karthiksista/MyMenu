@@ -1,7 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import ModernHeader from "react-native-modern-header";
 import { COLORS } from "../../constants/theme";
+
+export const SLIDER_WIDTH = Dimensions.get("window").width;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.86 + 40);
 
 export default function Info({ info }) {
   const logo = info.logo;
@@ -44,6 +47,20 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     marginHorizontal: 4,
     marginVertical: 6,
+    // backgroundColor: "white",
+    // borderRadius: 8,
+    // width: ITEM_WIDTH,
+    // paddingBottom: 20,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowOpacity: 0.39,
+    // shadowRadius: 9.65,
+    // elevation: 7,
+    // marginTop: 10,
+    // marginBottom: 10,
   },
   leftContainer: {
     display: "flex",

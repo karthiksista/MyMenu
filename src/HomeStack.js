@@ -1,33 +1,45 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Button, Text, View, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
-import { Center } from "./Center";
 import { AuthContext } from "./AuthProvider";
 import { useSelector } from "react-redux";
 import Info from "./components/Info";
 import Sections from "./components/Sections";
-import { COLORS } from "../constants/theme";
+import { icons, SIZES, COLORS, FONTS } from "../constants";
+import { CarouselCards } from "./components/CarouselCards";
+import { RestrauntSummaryCard } from "./components/RestrauntSummaryCard";
 
 const Stack = createStackNavigator();
 
+// FEED SCREEN
+
 function Feed({ navigation, route }) {
-  const info = useSelector((state) => state.restrauntData.restInfo);
+  const restData = useSelector(
+    (state) => state.restrauntData.restInfo.restrauntsArray
+  );
+
   return (
-    <Center>
-      <Text> FEED LIST</Text>
-      <Button
-        title={info.restaurantInfo.name}
-        onPress={() => {
-          navigation.push("Flats");
-        }}
-      />
-    </Center>
+    <ScrollView style={{ backgroundColor: "white", flex: 1 }}>
+      <Text style={styles.featuredRestraunts}> Featured Restraunts</Text>
+      <CarouselCards data={restData} navigation={navigation} />
+      <Text style={styles.featuredRestraunts}> All Restraunts</Text>
+      <RestrauntSummaryCard data={restData} />
+    </ScrollView>
   );
 }
 
-function Flats({ navigation, route }) {
-  const { restaurantInfo, categorys } = route.params.info;
+//Restraunt MEnu Screen
+
+function Flats({ route }) {
+  const { restaurantInfo, categorys } = route.params.data;
   return (
     <View style={styles.flatsView}>
       <ScrollView>
@@ -49,25 +61,56 @@ export const HomeStack = ({}) => {
         component={Feed}
         initialParams={{ name: "sista" }}
         options={{
-          headerRight: () => <Button onPress={() => logout()} title="Logout" />,
+          headerRight: () => (
+            <TouchableOpacity onPress={() => logout()}>
+              <Image source={icons.user} style={styles.profileHeader} />
+            </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <View style={styles.titleFlex}>
+              <Text style={styles.logoText1}>My</Text>
+              <Text style={styles.logoText2}>Menu</Text>
+            </View>
+          ),
         }}
       />
-      <Stack.Screen name="Flats" component={Flats} initialParams={{ info }} />
+      <Stack.Screen name="Flats" component={Flats} />
     </Stack.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
-  verticleLine: {
-    marginTop: 10,
-    height: 1,
-    width: "95%",
-    backgroundColor: COLORS.primary,
-    marginLeft: 10,
-    marginRight: 10,
-  },
   flatsView: {
     backgroundColor: "white",
     flex: 1,
+  },
+  profileHeader: {
+    borderRadius: 1,
+    display: "flex",
+    width: 30,
+    height: 30,
+    marginRight: SIZES.padding * 2,
+  },
+  logoText1: {
+    color: COLORS.primary,
+    fontWeight: "900",
+    fontSize: 25,
+    justifyContent: "center",
+  },
+  logoText2: {
+    color: COLORS.secondary,
+    fontWeight: "900",
+    fontSize: 25,
+    justifyContent: "center",
+  },
+  titleFlex: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  featuredRestraunts: {
+    fontSize: SIZES.h3,
+    fontWeight: "bold",
+    paddingLeft: 25,
+    paddingTop: 5,
   },
 });
