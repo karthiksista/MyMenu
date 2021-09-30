@@ -148,7 +148,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,1)",
     width: "100%",
   },
-  inactive: {},
+  inactive: {
+    width: "100%",
+  },
   selectors: {
     marginBottom: 10,
     flexDirection: "row",

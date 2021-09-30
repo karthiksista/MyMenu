@@ -16,6 +16,8 @@ import Sections from "./components/Sections";
 import { icons, SIZES, COLORS, FONTS } from "../constants";
 import { CarouselCards } from "./components/CarouselCards";
 import { RestrauntSummaryCard } from "./components/RestrauntSummaryCard";
+import CustomHeader from "./components/CustomHeader";
+import { TabView } from "react-native-tab-view";
 
 const Stack = createStackNavigator();
 
@@ -38,15 +40,18 @@ function Feed({ navigation, route }) {
 
 //Restraunt MEnu Screen
 
-function Flats({ route }) {
+function Flats({ route, navigation }) {
   const { restaurantInfo, categorys } = route.params.data;
+  const info = route.params.data;
   return (
-    <View style={styles.flatsView}>
-      <ScrollView>
-        <Info info={restaurantInfo} />
-        <Sections data={categorys} />
-      </ScrollView>
-    </View>
+    // <View style={styles.flatsView}>
+    <CustomHeader
+      data={info}
+      categorys={categorys}
+      restaurantInfo={restaurantInfo}
+      navigation={navigation}
+    />
+    // </View>
   );
 }
 
@@ -74,7 +79,13 @@ export const HomeStack = ({}) => {
           ),
         }}
       />
-      <Stack.Screen name="Flats" component={Flats} />
+      <Stack.Screen
+        name="Flats"
+        component={Flats}
+        options={{
+          header: () => null,
+        }}
+      />
     </Stack.Navigator>
   );
 };

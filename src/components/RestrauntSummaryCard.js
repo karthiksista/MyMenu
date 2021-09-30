@@ -15,7 +15,7 @@ export const RestrauntSummaryCard = ({ data }) => {
   const renderItem = ({ item }) => {
     const cardInfo = item.restaurantData.restaurantInfo;
     return (
-      <TouchableOpacity style={{ display: "flex" }}>
+      <TouchableOpacity style={{ display: "flex" }} activeOpacity={0.5}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <Image source={{ uri: cardInfo.imgUrl }} style={styles.image} />

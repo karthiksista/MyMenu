@@ -1,33 +1,94 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import ModernHeader from "react-native-modern-header";
 import { COLORS } from "../../constants/theme";
 
 export const SLIDER_WIDTH = Dimensions.get("window").width;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.86 + 40);
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { Center } from "../Center";
+import TabNav from "./TabNav";
 
-export default function Info({ info }) {
-  const logo = info.logo;
+const Tab = createMaterialTopTabNavigator();
+
+function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <View style={styles.leftContainer}>
-        <Text style={styles.paragraph}> {info.name}</Text>
-        <Text style={styles.subText}>{info.rating}</Text>
-        <Text style={styles.subText}>{info.address}</Text>
-        <Text style={styles.subText}>
-          Delivery: {info.avg_delivery_time} mins
-        </Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <Image
-          style={styles.logo}
-          source={{
-            uri: logo,
-          }}
-        />
-      </View>
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: COLORS.white,
+      }}
+    >
+      <Text>Home!</Text>
     </View>
   );
+}
+
+function SettingsScreen() {
+  return (
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: COLORS.white,
+      }}
+    >
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+export default function Info({ info, categorys, noImage }) {
+  const logo = info.imgUrl;
+  if (noImage) {
+    return (
+      <View>
+        <View style={styles.containerWithNoImage}>
+          <View style={styles.leftContainer}>
+            <Text style={styles.paragraph}> {info.name}</Text>
+            <Text style={styles.subText}>{info.rating}</Text>
+            <Text style={styles.subText}>{info.address}</Text>
+            <Text style={styles.subText}>
+              Delivery: {info.avg_delivery_time} mins
+            </Text>
+          </View>
+        </View>
+        <TabNav data={categorys} />
+      </View>
+    );
+  } else {
+    return (
+      <View>
+        <View style={styles.container}>
+          <View style={styles.leftContainer}>
+            <Text style={styles.paragraph}> {info.name}</Text>
+            <Text style={styles.subText}>{info.rating}</Text>
+            <Text style={styles.subText}>{info.address}</Text>
+            <Text style={styles.subText}>
+              Delivery: {info.avg_delivery_time} mins
+            </Text>
+          </View>
+          <View style={styles.rightContainer}>
+            <Image
+              style={styles.logo}
+              source={{
+                uri: logo,
+              }}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -47,20 +108,16 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     marginHorizontal: 4,
     marginVertical: 6,
-    // backgroundColor: "white",
-    // borderRadius: 8,
-    // width: ITEM_WIDTH,
-    // paddingBottom: 20,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 3,
-    // },
-    // shadowOpacity: 0.39,
-    // shadowRadius: 9.65,
-    // elevation: 7,
-    // marginTop: 10,
-    // marginBottom: 10,
+  },
+  containerWithNoImage: {
+    padding: 8,
+    height: 125,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderBottomColor: COLORS.primary,
+    marginTop: 8,
+    borderRadius: 6,
+    backgroundColor: "white",
   },
   leftContainer: {
     display: "flex",
@@ -82,8 +139,8 @@ const styles = StyleSheet.create({
     paddingLeft: 6,
   },
   logo: {
-    width: 66,
-    height: 58,
-    borderRadius: 30,
+    width: 100,
+    height: 100,
+    borderRadius: 0.4,
   },
 });
